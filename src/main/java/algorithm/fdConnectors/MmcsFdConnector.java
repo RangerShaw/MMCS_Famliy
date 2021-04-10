@@ -1,6 +1,6 @@
-package algorithm.MMCS;
+package algorithm.fdConnectors;
 
-import algorithm.FdConnector;
+import algorithm.MMCS.Mmcs;
 
 import java.util.ArrayList;
 import java.util.BitSet;
@@ -30,7 +30,7 @@ public class MmcsFdConnector extends FdConnector {
             System.out.println("  [FdConnector] initiating on rhs " + rhs + "...");
             List<BitSet> diffSets = generateDiffSetsOnRhs(toCover, rhs);
             MmcsList.get(rhs).initiate(diffSets);
-            minFDs.add(MmcsList.get(rhs).getGlobalMinCoverSets());
+            minFDs.add(MmcsList.get(rhs).getMinCoverSets());
         }
     }
 

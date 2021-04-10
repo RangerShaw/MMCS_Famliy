@@ -53,7 +53,7 @@ public class Mmcs {
     /**
      * down from nd on the search tree, find all minimal hitting sets
      */
-    public void walkDown(MmcsNode nd, List<MmcsNode> newNodes) {
+    void walkDown(MmcsNode nd, List<MmcsNode> newNodes) {
         if (walked.contains(nd.hashCode())) return;
         walked.add(nd.hashCode());
 
@@ -77,7 +77,7 @@ public class Mmcs {
     }
 
 
-    public List<BitSet> getGlobalMinCoverSets() {
+    public List<BitSet> getMinCoverSets() {
         return hasEmptySubset ? new ArrayList<>() : coverNodes.stream()
                 .map(MmcsNode::getElements)
                 .sorted(Utils.BitsetComparator())

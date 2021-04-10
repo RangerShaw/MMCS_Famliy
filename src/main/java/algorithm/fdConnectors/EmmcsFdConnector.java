@@ -1,6 +1,6 @@
-package algorithm.EMMCS;
+package algorithm.fdConnectors;
 
-import algorithm.FdConnector;
+import algorithm.EMMCS.Emmcs;
 
 import java.util.ArrayList;
 import java.util.BitSet;
@@ -31,7 +31,7 @@ public class EmmcsFdConnector extends FdConnector {
             System.out.println("  [FdConnector] initiating on rhs " + rhs + "...");
             List<BitSet> diffSets = generateDiffSetsOnRhs(toCover, rhs);
             emmcsList.get(rhs).initiate(diffSets);
-            minFDs.add(emmcsList.get(rhs).getGlobalMinCoverSets());
+            minFDs.add(emmcsList.get(rhs).getMinCoverSets());
         }
     }
 
@@ -40,7 +40,7 @@ public class EmmcsFdConnector extends FdConnector {
             System.out.println("  [FdConnector] adding on rhs " + rhs + "...");
             List<BitSet> newDiffSets = generateDiffSetsOnRhs(addedSets, rhs);
             emmcsList.get(rhs).insertSubsets(newDiffSets);
-            minFDs.set(rhs, emmcsList.get(rhs).getGlobalMinCoverSets());
+            minFDs.set(rhs, emmcsList.get(rhs).getMinCoverSets());
         }
     }
 

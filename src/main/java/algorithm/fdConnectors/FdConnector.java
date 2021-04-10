@@ -1,4 +1,4 @@
-package algorithm;
+package algorithm.fdConnectors;
 
 import java.util.ArrayList;
 import java.util.BitSet;
