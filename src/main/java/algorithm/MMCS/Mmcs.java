@@ -43,7 +43,7 @@ public class Mmcs {
     public void initiate(List<BitSet> bitSetsToCover) {
         hasEmptySubset = bitSetsToCover.stream().anyMatch(BitSet::isEmpty);
 
-        List<Subset> subsets = bitSetsToCover.stream().map(Subset::new).collect(Collectors.toList());
+        List<Subset> subsets = bitSetsToCover.stream().filter(bs -> !bs.isEmpty()).map(Subset::new).collect(Collectors.toList());
 
         MmcsNode initNode = new MmcsNode(nElements, subsets);
 

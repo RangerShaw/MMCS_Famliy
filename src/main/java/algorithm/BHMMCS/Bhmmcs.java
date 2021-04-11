@@ -46,7 +46,7 @@ public class Bhmmcs {
 
         hasEmptySubset = setsToCover.stream().anyMatch(BitSet::isEmpty);
 
-        List<Subset> subsets = setsToCover.stream().map(Subset::new).collect(Collectors.toList());
+        List<Subset> subsets = setsToCover.stream().filter(bs -> !bs.isEmpty()).map(Subset::new).collect(Collectors.toList());
 
         BhmmcsNode initNode = new BhmmcsNode(nElements, subsets);
 
@@ -61,7 +61,7 @@ public class Bhmmcs {
 
         hasEmptySubset |= insertedSets.stream().anyMatch(BitSet::isEmpty);
 
-        List<Subset> insertedSubsets = insertedSets.stream().map(Subset::new).collect(Collectors.toList());
+        List<Subset> insertedSubsets = insertedSets.stream().filter(bs -> !bs.isEmpty()).map(Subset::new).collect(Collectors.toList());
 
         for (BhmmcsNode prevNode : coverNodes)
             prevNode.insertSubsets(insertedSubsets);
