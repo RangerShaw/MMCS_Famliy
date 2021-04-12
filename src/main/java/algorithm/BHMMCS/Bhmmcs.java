@@ -31,7 +31,7 @@ public class Bhmmcs {
     /**
      * record nodes walked to avoid duplication
      */
-    private Set<Integer> walked = new HashSet<>();
+    private Set<BitSet> walked = new HashSet<>();
 
 
     public Bhmmcs(int nEle) {
@@ -77,8 +77,8 @@ public class Bhmmcs {
      * down from nd on the search tree, find all minimal hitting sets
      */
     void walkDown(BhmmcsNode nd, List<BhmmcsNode> newNodes) {
-        if (walked.contains(nd.hashCode())) return;
-        walked.add(nd.hashCode());
+        if (walked.contains(nd.getElements())) return;
+        walked.add(nd.getElements());
 
         if (nd.isCover()) {
             newNodes.add(nd);

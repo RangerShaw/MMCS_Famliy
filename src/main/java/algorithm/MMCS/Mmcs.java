@@ -27,11 +27,6 @@ public class Mmcs {
      */
     private boolean hasEmptySubset = false;
 
-    /**
-     * record nodes walked to avoid duplication
-     */
-    private Set<Integer> walked = new HashSet<>();
-
 
     public Mmcs(int nEle) {
         nElements = nEle;
@@ -54,9 +49,6 @@ public class Mmcs {
      * down from nd on the search tree, find all minimal hitting sets
      */
     void walkDown(MmcsNode nd, List<MmcsNode> newNodes) {
-        if (walked.contains(nd.hashCode())) return;
-        walked.add(nd.hashCode());
-
         if (nd.isCover()) {
             newNodes.add(nd);
             return;

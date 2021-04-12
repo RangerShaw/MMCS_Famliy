@@ -30,7 +30,7 @@ public class Emmcs{
     /**
      * record nodes walked to avoid duplication
      */
-    private Set<Integer> walked = new HashSet<>();
+    private Set<BitSet> walked = new HashSet<>();
 
 
     public Emmcs(int nEle) {
@@ -74,8 +74,8 @@ public class Emmcs{
      * down from nd on the search tree, find all minimal hitting sets
      */
     void walkDown(EmmcsNode nd, List<EmmcsNode> newNodes) {
-        if (walked.contains(nd.hashCode())) return;
-        walked.add(nd.hashCode());
+        if (walked.contains(nd.getElements())) return;
+        walked.add(nd.getElements());
 
         if (nd.isCover()) {
             newNodes.add(nd);
