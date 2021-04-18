@@ -51,11 +51,38 @@ public class Bhmmcs {
         BhmmcsNode initNode = new BhmmcsNode(nElements, subsets);
 
         walkDown(initNode, coverNodes);
+
+        // System.out.println("# of walked: " + walked.size());
     }
 
     /**
      * @param insertedSets unique BitSets representing newly inserted Subsets to be covered
      */
+    public void insertSubsets1(List<BitSet> insertedSets) {
+        walked.clear();
+
+        hasEmptySubset |= insertedSets.stream().anyMatch(BitSet::isEmpty);
+
+        List<Subset> insertedSubsets = insertedSets.stream().filter(bs -> !bs.isEmpty()).map(Subset::new).collect(Collectors.toList());
+
+        long startTime1 = System.nanoTime();
+        for (BhmmcsNode prevNode : coverNodes)
+            prevNode.insertSubsets(insertedSubsets);
+        long endTime1 = System.nanoTime();
+        System.out.println("runtime 1 of ADD: " + (endTime1 - startTime1) / 1000000 + "ms");
+
+        long startTime2 = System.nanoTime();
+        List<BhmmcsNode> newCoverSets = new ArrayList<>();
+        for (BhmmcsNode prevNode : coverNodes)
+            walkDown(prevNode, newCoverSets);
+        long endTime2 = System.nanoTime();
+        System.out.println("runtime 2 of ADD: " + (endTime2 - startTime2) / 1000000 + "ms");
+
+        coverNodes = newCoverSets;
+
+        System.out.println("# of walked: " + walked.size());
+    }
+
     public void insertSubsets(List<BitSet> insertedSets) {
         walked.clear();
 
@@ -63,12 +90,11 @@ public class Bhmmcs {
 
         List<Subset> insertedSubsets = insertedSets.stream().filter(bs -> !bs.isEmpty()).map(Subset::new).collect(Collectors.toList());
 
-        for (BhmmcsNode prevNode : coverNodes)
-            prevNode.insertSubsets(insertedSubsets);
-
         List<BhmmcsNode> newCoverSets = new ArrayList<>();
-        for (BhmmcsNode prevNode : coverNodes)
+        for (BhmmcsNode prevNode : coverNodes) {
+            prevNode.insertSubsets(insertedSubsets);
             walkDown(prevNode, newCoverSets);
+        }
 
         coverNodes = newCoverSets;
     }

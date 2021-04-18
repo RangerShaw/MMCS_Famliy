@@ -3,6 +3,7 @@ package algorithm.BHMMCS;
 import algorithm.Subset;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class BhmmcsNode {
 
@@ -11,7 +12,7 @@ public class BhmmcsNode {
     /**
      * elements of current node
      */
-    private BitSet elements;
+    BitSet elements;
 
     private BitSet cand;
 
@@ -55,6 +56,10 @@ public class BhmmcsNode {
     @Override
     public boolean equals(Object obj) {
         return obj instanceof BhmmcsNode && ((BhmmcsNode) obj).elements.equals(elements);
+    }
+
+    int cardinality() {
+        return elements.cardinality();
     }
 
     BitSet getElements() {
@@ -106,9 +111,8 @@ public class BhmmcsNode {
         cand = (BitSet) outerCand.clone();
 
         crit = new ArrayList<>(nElements);
-        for (int i = 0; i < nElements; i++) {
+        for (int i = 0; i < nElements; i++)
             crit.add(new ArrayList<>(originalNode.crit.get(i)));
-        }
     }
 
     void updateContextFromParent(int e, BhmmcsNode parentNode) {
@@ -130,12 +134,28 @@ public class BhmmcsNode {
         cand = (BitSet) elements.clone();
         cand.flip(0, nElements);
 
-        for (Subset newSb : newSubsets) {
-            BitSet intersec = (BitSet) elements.clone();
-            intersec.and(newSb.elements);
+//        uncov = new ArrayList<>(newSubsets.size());
+//        for (Subset newSb : newSubsets) {
+//            BitSet intersec = (BitSet) elements.clone();
+//            intersec.and(newSb.elements);
+//
+//            if (intersec.isEmpty()) uncov.add(newSb);
+//            if (intersec.cardinality() == 1) crit.get(intersec.nextSetBit(0)).add(newSb);
+//        }
 
-            if (intersec.isEmpty()) uncov.add(newSb);
-            if (intersec.cardinality() == 1) crit.get(intersec.nextSetBit(0)).add(newSb);
+        int[] ele = elements.stream().toArray();
+        uncov = new ArrayList<>();
+        for (Subset newSb : newSubsets) {
+            int c = 0, critCover = -1;
+            for (int e : ele) {
+                if (newSb.hasElement(e)) {
+                    c++;
+                    critCover = e;
+                    if (c == 2) break;
+                }
+            }
+            if (c == 0) uncov.add(newSb);
+            else if (c == 1) crit.get(critCover).add(newSb);
         }
     }
 
